@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const http = require('http');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -57,9 +58,16 @@ app.use('/api/share', shareRoutes);
 
 app.get('/api/health', (req, res) => res.status(200).json({ status: 'ok' }));
 
-app.all('*', (req, res) => {
-  res.status(404).json({ status: 'fail', message: `Route ${req.originalUrl} not found` });
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+  });
+} else {
+  app.all('*', (req, res) => {
+    res.status(404).json({ status: 'fail', message: `Route ${req.originalUrl} not found` });
+  });
+}
 
 app.use(errorHandler);
 

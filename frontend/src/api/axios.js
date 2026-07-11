@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
   withCredentials: true,
 });
 
@@ -19,9 +19,8 @@ api.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('token');
 
-      
-      if (window.location.hash.startsWith('#/dashboard')) {
-        window.location.href = '/#/login';
+      if (window.location.pathname.startsWith('/dashboard')) {
+        window.location.href = '/login';
       }
     }
 
