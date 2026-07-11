@@ -13,7 +13,8 @@ export function SocketProvider({ children }) {
     if (!user) return;
 
     const token = localStorage.getItem('token');
-    const socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000', {
+    const socketURL = import.meta.env.VITE_SOCKET_URL || (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+    const socket = io(socketURL, {
       auth: { token },
     });
 

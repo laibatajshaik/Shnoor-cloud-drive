@@ -135,7 +135,7 @@ export default function Login() {
 
         
         <a
-          href={`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/google`}
+          href={`${import.meta.env.VITE_API_URL || '/api'}/auth/google`}
           className="flex items-center justify-center border border-gray-300 rounded-lg py-3 text-sm hover:bg-gray-100 transition"
         >
           Continue with Google
